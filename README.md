@@ -32,3 +32,10 @@ Creating a Pivot Table:
 ```
 > php artisan make:migration create_article_tag_table
 ```
+
+
+## GENERATE DATA WITH SEEDERS/FACTORIES
+
+```
+> php artisan make:seeder CategorySeeder
+```
