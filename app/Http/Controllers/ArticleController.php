@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Article;
 use Illuminate\Http\Request;
+
+use App\Models\Article;
 
 class ArticleController extends Controller
 {
@@ -12,7 +13,11 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        return "Hello World";
+        // $articles = Article::simplePaginate(10);
+        # simplePaginate() method is the best.
+        $articles = Article::with(['user', 'tags'])->latest()->simplePaginate(5);
+
+        return view('articles.index', ['articles' => $articles]);
     }
 
     /**
@@ -28,7 +33,7 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**
@@ -36,7 +41,7 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        //
+        return 'Hello WOrld';
     }
 
     /**

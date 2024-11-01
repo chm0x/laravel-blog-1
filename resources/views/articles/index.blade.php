@@ -21,28 +21,27 @@
 
         <div class="border-b-2 border-neutral-700 pb-10 pt-10 sm:pt-20">
             @forelse($articles as $article)
-            <span class="sm:float-right float-left sm:pt-20 text-gray-400">
-                {{ $article->created_at->format("M jS Y") }}
-                , by {{ $article->user->name }}
-            </span>
-
-            <a href="{{ route('articles.show', $article->slug) }}">
-                <h2 class="hover:text-red-700 sm:w-3/5 transition-all text-white sm:pt-0 pt-10 text-3xl sm:text-4xl font-bold sm:pb-2 w-full sm:pt-10 block">
-                    {{ $article->title }}
-                </h2>
-            </a>
-
-            <p class="text-gray-400 leading-8 py-6 text-lg w-full sm:w-3/5">
-                {{ $article->excerpt }}
-            </p>
-
-            @foreach($article->tags as $tag)
-                <span class="block inline text-xs text-white transition-all hover:text-gray-100 font-bold pr-2 uppercase">
-                    <a href="/" class="bg-red-700 rounded-md py-1 px-3">
-                        {{ $tag->name }}
-                    </a>
+                <span class="sm:float-right float-left sm:pt-20 text-gray-400">
+                    {{ $article->created_at->format("M jS Y") }}
+                    , by {{ $article->user->name }}
                 </span>
-            @endforeach
+
+                <a href="{{ route('articles.show', $article->slug) }}">
+                    <h2 class="hover:text-red-700 sm:w-3/5 transition-all text-white sm:pt-0 pt-10 text-3xl sm:text-4xl font-bold sm:pb-2 w-full sm:pt-10 block">
+                        {{ $article->title }}
+                    </h2>
+                </a>
+
+                <p class="text-gray-400 leading-8 py-6 text-lg w-full sm:w-3/5">
+                    {{ $article->excerpt }}
+                </p>
+                @foreach($article->tags as $tag)
+                    <span class="block inline text-xs text-white transition-all hover:text-gray-100 font-bold pr-2 uppercase">
+                        <a href="/" class="bg-red-700 rounded-md py-1 px-3">
+                            {{ $tag->name }}
+                        </a>
+                    </span>
+                @endforeach
 
             @empty
                 <h2 class="hover:text-red-700 sm:w-3/5 transition-all text-white sm:pt-0 pt-10 text-3xl sm:text-4xl font-bold sm:pb-2 w-full block">
