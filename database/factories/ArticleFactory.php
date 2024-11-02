@@ -24,8 +24,8 @@ class ArticleFactory extends Factory
         return [    
             'title' => $title,
             'slug' => $slug,
-            'excerpt' => fake()->sentence,
-            'description' => fake()->sentence,
+            'excerpt' => fake()->paragraphs(2, true),
+            'description' => fake()->paragraphs(8, true),
             'status' => fake()->boolean(),
             'user_id' => User::inRandomOrder()->value('id'),
             'category_id' => Category::inRandomOrder()->value('id')

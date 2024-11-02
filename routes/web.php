@@ -20,7 +20,8 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $articles = \App\Models\Article::where('user_id', auth()->id())->paginate();
+    return view('dashboard', [ 'articles' => $articles ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 

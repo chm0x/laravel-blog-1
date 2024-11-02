@@ -13,7 +13,6 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        // $articles = Article::simplePaginate(10);
         # simplePaginate() method is the best.
         $articles = Article::with(['user', 'tags'])->latest()->simplePaginate(5);
 
@@ -39,9 +38,21 @@ class ArticleController extends Controller
     /**
      * Display the specified resource.
      */
+
+     /**
+      * Route Model Binding.
+      * Its a technique used in Laravel to automatically inject a model
+      * instance into a controller method based on the Value of a 
+      * wildcard and the URI.
+      * This allows you to easily retrieve a model from the database
+      * without having to manually query the database. 
+
+      * By default, Route Model Binding ONLY WORKS with the ID column.
+      * Laravel allows you to Override a Method in the Desired Model
+      */
     public function show(Article $article)
     {
-        return 'Hello WOrld';
+        return view('articles.show', ['article' => $article]);
     }
 
     /**

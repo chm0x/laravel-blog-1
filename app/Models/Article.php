@@ -21,6 +21,12 @@ class Article extends Model
         'status'
     ];
 
+    # USE SLUG FOR SEARCH INSTEAD OF ID.
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     # Relation between Article and the User
     # Each article belongs to One User.
     public function user(): BelongsTo
