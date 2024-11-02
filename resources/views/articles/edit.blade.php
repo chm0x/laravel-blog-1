@@ -13,7 +13,6 @@
                         @csrf
                         @method('PATCH')
 
-
                         <div>
                             <x-input-label for="status" class="pb-2" :value="__('Status')" />
 
@@ -35,7 +34,7 @@
                             <x-input-label for="excerpt" :value="__('Excerpt')" />
                             <textarea name="excerpt" class="mt-1 block w-full h-20 border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"> {{ $article->excerpt }} </textarea>
                             @error('excerpt')
-                            <div class="text-red-500">{{ $message }}</div>
+                                <div class="text-red-500">{{ $message }}</div>
                             @enderror
                         </div>
 

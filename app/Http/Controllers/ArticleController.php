@@ -7,7 +7,7 @@ use Illuminate\View\View;
 use Illuminate\Support\Str;
 
 use App\Http\Requests\StoreArticleRequest;
-
+use App\Http\Requests\UpdateArticleRequest;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\Tag;
@@ -30,15 +30,8 @@ class ArticleController extends Controller
      */
     public function create(): View
     {
-        $categories = Category::pluck('name','id');
-        $tags = Tag::pluck('name', 'id');
 
-        return view('articles.create', 
-        [
-                'categories' => $categories,
-                'tags' => $tags
-            ]
-        );
+        return view('articles.create', $this->getFormData());
     }
 
     /**
@@ -46,18 +39,6 @@ class ArticleController extends Controller
      */
     public function store(StoreArticleRequest $request)
     {
-        # Primera forma
-        // $article = Article::create([
-        //     'title' => $request->title,
-        //     'slug' => Str::slug($request->title),
-        //     'excerpt' => $request->excerpt,
-        //     'description' => $request->description,
-        //     'status' => $request->status === 'on',
-        //     'user_id' => auth()->id(),
-        //     'category_id' => $request->category_id
-        // ]);
-        
-        # Segunda Forma
         $article = Article::create([
             'slug' => Str::slug($request->title),
             'status' => $request->status === 'on',
@@ -87,7 +68,7 @@ class ArticleController extends Controller
       * By default, Route Model Binding ONLY WORKS with the ID column.
       * Laravel allows you to Override a Method in the Desired Model
       */
-    public function show(Article $article)
+    public function show(Article $article) : View
     {
         return view('articles.show', ['article' => $article]);
     }
@@ -97,15 +78,23 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        //
+        return view('articles.edit', array_merge(compact('article'), $this->getFormData()));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Article $article)
+    public function update(UpdateArticleRequest $request, Article $article)
     {
-        //
+        $article->update($request->validated() + [
+            'slug' => Str::slug($request->title)
+        ]);
+
+        $article->tags()->sync($request->tags);
+
+        // return redirect()->route('dashboard');
+        return redirect(route('dashboard'))
+            ->with('message', '¡El artículo ha sido actualizado con éxito!');
     }
 
     /**
@@ -114,5 +103,15 @@ class ArticleController extends Controller
     public function destroy(Article $article)
     {
         //
+    }
+
+
+    # Crear un método privado para evitar duplicados
+    private function getFormData(): array
+    {
+        $categories = Category::pluck('name', 'id');
+        $tags       = Tag::pluck('name', 'id');
+
+        return compact('categories', 'tags');
     }
 }
