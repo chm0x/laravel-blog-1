@@ -39,3 +39,9 @@ Creating a Pivot Table:
 ```
 > php artisan make:seeder CategorySeeder
 ```
+
+## GENERATE REQUEST FOR VALIDATION
+
+```
+> php artisan make:request StoreArticleRequest
+```

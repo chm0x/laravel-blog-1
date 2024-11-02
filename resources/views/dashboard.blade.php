@@ -1,6 +1,15 @@
 <x-app-layout>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
+            <div class="w-full mx-auto mb-10">
+                <span class="block inline text-md text-white transition-all hover:text-red-700 font-bold uppercase">
+                    <a href="{{ route('articles.create') }}" class="bg-green-700 rounded-md py-3 px-5">
+                         Create Article
+                    </a>
+               </span>
+            </div>
+
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <h2 class="font-bold text-xl" >

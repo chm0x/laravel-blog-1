@@ -3,15 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\View\View;
+use Illuminate\Support\Str;
+
+use App\Http\Requests\StoreArticleRequest;
 
 use App\Models\Article;
+use App\Models\Category;
+use App\Models\Tag;
 
 class ArticleController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
         # simplePaginate() method is the best.
         $articles = Article::with(['user', 'tags'])->latest()->simplePaginate(5);
@@ -22,17 +28,48 @@ class ArticleController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
-        //
+        $categories = Category::pluck('name','id');
+        $tags = Tag::pluck('name', 'id');
+
+        return view('articles.create', 
+        [
+                'categories' => $categories,
+                'tags' => $tags
+            ]
+        );
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreArticleRequest $request)
     {
+        # Primera forma
+        // $article = Article::create([
+        //     'title' => $request->title,
+        //     'slug' => Str::slug($request->title),
+        //     'excerpt' => $request->excerpt,
+        //     'description' => $request->description,
+        //     'status' => $request->status === 'on',
+        //     'user_id' => auth()->id(),
+        //     'category_id' => $request->category_id
+        // ]);
         
+        # Segunda Forma
+        $article = Article::create([
+            'slug' => Str::slug($request->title),
+            'status' => $request->status === 'on',
+            'user_id' => auth()->id()
+        ] + $request->validated() );
+
+        # Storing at pivot table
+        $article->tags()->attach($request->tags);
+
+        // return redirect()->route('dashboard');
+        return redirect(route('articles.index'))
+            ->with('message', 'El artículo ha sido creado con éxito');
     }
 
     /**
