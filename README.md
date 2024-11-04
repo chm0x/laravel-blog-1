@@ -45,3 +45,10 @@ Creating a Pivot Table:
 ```
 > php artisan make:request StoreArticleRequest
 ```
+
+## GENERATE A POLICY
+
+Es para asegurar que los otros usuarios no pueden crear, editar, actualizar y borrar los articulos que no pertenecen.
+```
+> php artisan make:policy ArticlePolicy --model=Article
+```

@@ -11,10 +11,21 @@ use App\Http\Requests\UpdateArticleRequest;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\Tag;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
 
 class ArticleController extends Controller
 {
+
+    use AuthorizesRequests;
+
+    public function __construct()
+    {
+        #arg1: Model Name
+        #arg2: Name of the root of Model ID
+        $this->authorizeResource(Article::class, 'article');
+    }
+
     /**
      * Display a listing of the resource.
      */
